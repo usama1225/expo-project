@@ -36,9 +36,14 @@ const Login = ({navigation}) => {
               Login
             </Text>
           </TouchableOpacity>
-          <Text style={{padding:40,color:'black', }}>Don't have an account?  </Text><Button title='Signup' onPress={()=>{navigation.navigate('registration')}}/>
+          <TouchableOpacity onPress={()=>{navigation.navigate('registration')}}>
+            <Text style={styles.button}>
+              Register
+            </Text>
+          </TouchableOpacity>
+          
           <TouchableOpacity>
-            <Text style={{color:"#363537",paddingHorizontal:130, fontSize:17}}>Forget Password?</Text>
+            <Text style={{color:"#363537",paddingTop:25,paddingHorizontal:130, fontSize:17}}>Forget Password?</Text>
           </TouchableOpacity>
         
       </View>
