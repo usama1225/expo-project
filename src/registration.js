@@ -1,7 +1,6 @@
-import { Text, View, StyleSheet, Image, SafeAreaView,TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import { Text, View, StyleSheet, Image, SafeAreaView,TextInput, TouchableOpacity, ScrollView, Alert,Button } from 'react-native'
 import React, { useState ,useRef ,useEffect} from 'react'
-
-
+import * as ImagePicker from 'expo-image-picker';
 
 
 const Registration= ({navigation}) => {
@@ -11,7 +10,27 @@ const Registration= ({navigation}) => {
   const [playerConfirmPassword, setConfirmPlayerPassword]= useState("");
   const [playerEmail, setPlayerEmail]= useState("");
   const [playerNumber, setPlayerNumber]= useState("");
-  
+  const [image, setImage] = useState(null);
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
+  requestPermission();
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+ 
 
   
   const SignUpPressed = ()=>{
@@ -55,7 +74,13 @@ return(
       style={{flex: 2, }}
       showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
         
-     
+        <View style={{ flex: 1, alignItems: 'center',justifyContent: 'center' }}>
+        {image && <Image source={{ uri: image }} style={{ width: 200,borderRadius:90, marginVertical:20, height: 200 }} />}
+        
+      <Button title="Choose From Gallary" onPress={pickImage}  />
+    
+      
+    </View>
         
        
       <TextInput
