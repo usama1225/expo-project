@@ -3,10 +3,10 @@ import {SafeAreaView, Text, View} from 'react-native';
 // import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Entypo';
-import Home from '../src/home';
-import Profile from '../src/profile';
-import Score from '../score/score';
-import Store from '../src/store';
+import Home from '../src/screens/home';
+import Profile from '../src/screens/profile';
+import Score from '../src/screens/score';
+import Store from '../src/screens/store';
 
 
 
@@ -17,7 +17,6 @@ export default function App() {
   
     <Tab.Navigator
       independent={true}
-      
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -42,12 +41,12 @@ export default function App() {
       })}>
         
    
-      
+     
       <Tab.Screen name="Home" component={Home} options={{headerShown:false}} />
       <Tab.Screen name="Store" component={Store} options={{headerShown:false}}/>
       <Tab.Screen name="Score" component={Score} options={{headerShown:false}}/>
       <Tab.Screen name="Profile" component={Profile} options={{headerShown:false}}/>
-    
+      
       
     </Tab.Navigator>
     

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 const playersData=[
     {title:"Player 1", subtitle:"subtitle 1"},
     {title:"Player 2", subtitle:"subtitle 2"},
@@ -10,6 +10,7 @@ const playersData=[
 ];
    function Player({navigation}){
     const __renderItem = ({item})=>(
+       <View>
         <TouchableOpacity style={{
             padding:10, margin:10, backgroundColor:"rgba(212,22,240,0.5)",
             borderRadius: 20,
@@ -23,7 +24,8 @@ const playersData=[
             </Text>
            
         </TouchableOpacity>
+        </View>
     );
-    return <FlatList data={playersData} renderItem={__renderItem} />
+    return  <FlatList data={playersData} renderItem={__renderItem} />
    }
    export default Player;

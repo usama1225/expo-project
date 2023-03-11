@@ -39,7 +39,7 @@ const Home = ()=> {
     <View  style={{flex:2}}>
       <View style={{backgroundColor:'#ffafff', flex:0.5,alignContent:'center'}}>
        <Image
-        source={require('./assets/cover.png')}
+        source={require('../assets/cover.png')}
         style={{height:150,width:430, }}      
       
        />
