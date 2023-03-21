@@ -1,7 +1,28 @@
-import { Text, View, Image, StyleSheet, TextInput,SafeAreaView,TouchableOpacity, ScrollView, Button } from 'react-native'
-import React, { Component } from 'react'
-import Icon from 'react-native-vector-icons/Entypo'
+import { Text, View, Image, StyleSheet, TextInput,SafeAreaView,TouchableOpacity, ScrollView, Button, Alert } from 'react-native'
+import React, { useState,Component } from 'react'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 const Login = ({navigation}) => {
+    const [playerEmail,setPlayerEmail]= useState("");
+    const [playerPassword,setPlayerPassword]= useState("");
+
+
+    const onLoginPress = ()=>{
+
+const auth = getAuth();
+signInWithEmailAndPassword(auth, playerEmail, playerPassword)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    Alert.alert("Successfully Registered")
+    navigation.navigate('tab')
+  })
+  .catch((error) => {
+    
+    Alert.alert(error.message);
+  });
+    }
+
+
     return (
       <ScrollView
       style={{flex: 2, backgroundColor: '#ffff'}}
@@ -22,6 +43,7 @@ const Login = ({navigation}) => {
           textAlign='center'
           placeholderTextColor={'#023047'}
           backgroundColor='#ffc8dd'
+          onChangeText={(text)=> setPlayerEmail(text)}
           />
 
 <TextInput
@@ -30,8 +52,10 @@ const Login = ({navigation}) => {
           textAlign='center'
           placeholderTextColor={'#023047'}
           backgroundColor='#ffc8dd'
+          secureTextEntry={true}
+          onChangeText={(text)=> setPlayerPassword(text)}
           />
-          <TouchableOpacity onPress={()=>{navigation.navigate('tab')}}>
+          <TouchableOpacity onPress={onLoginPress}>
             <Text style={styles.button}>
               Login
             </Text>

@@ -1,16 +1,20 @@
 import { Text, View, StyleSheet, Image, SafeAreaView,TextInput, TouchableOpacity, ScrollView, Alert,Button } from 'react-native'
 import React, { useState ,useRef ,useEffect} from 'react'
 import * as ImagePicker from 'expo-image-picker';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from './services/firebaseConfig';
+import Spinner from 'react-native-loading-spinner-overlay';
+import {addDoc,setDoc, doc, collection} from 'firebase/firestore';
 
 
 const Registration= ({navigation}) => {
-  const [isValid,setIsValid]= useState(false)
   const [playerName, setPlayerName]= useState("");
   const [playerPassword, setPlayerPassword]= useState("");
   const [playerConfirmPassword, setConfirmPlayerPassword]= useState("");
   const [playerEmail, setPlayerEmail]= useState("");
   const [playerNumber, setPlayerNumber]= useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   requestPermission();
 
@@ -60,11 +64,28 @@ const Registration= ({navigation}) => {
       Alert.alert("Please enter Number");
       return;
     }
-    navigation.navigate('tab');
-  }
+    setLoading(true); 
+
+    createUserWithEmailAndPassword(auth, playerEmail, playerPassword)
+    .then((authResponse) => {
+        const user = authResponse.user;
+      console.log(user.uid);
+      setLoading(false);
+        Alert.alert("Registed user")
+     
+      })
+       .catch((authError) =>{
+      setLoading(false);
+      alert(authError.message)  
+    })
+    // setDoc ak doc bnao hmari firesotre db ma
+    // users collection k andr new UID k sath data la k
+    
+   // navigation.navigate('tab');
+  };
   
 return(
-
+<SafeAreaView style={{flex:1.3, backgroundColor:'#ffafcc'}}>
   <View style={{flex:2}}> 
         <View style={{ flex:0.7 ,backgroundColor:'#ffafcc',justifyContent:'center',alignItems:'center'}}>
         <Image
@@ -73,9 +94,9 @@ return(
         />
         <Text style={{fontSize:28,fontWeight:'bold',color:'#ffff'}}>Paradise Cricket Team</Text>
       </View>
-      <SafeAreaView style={{flex:1.3, backgroundColor:'#ffafcc'}}>
+      
       <ScrollView
-      style={{flex: 2, }}
+      style={{flex: 2, marginTop: 10 }}
       showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
         
         <View style={{ flex: 1, alignItems: 'center',justifyContent: 'center' }}>
@@ -136,12 +157,13 @@ return(
               Sign Up
             </Text>
           </TouchableOpacity>
+          <Spinner visible={loading} textContent={"Loading..."} />
           <Text style={{padding:40,color:'black', }}> have an account? <TouchableOpacity onPress={()=>{navigation.navigate('login')}}><Text style={{color:'red',fontSize:15, paddingTop:10}}>Login</Text></TouchableOpacity> </Text>
           </ScrollView>
-      </SafeAreaView>
+    
       
       </View>
-    
+      </SafeAreaView>
     
 );
   }
