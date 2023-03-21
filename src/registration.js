@@ -52,6 +52,10 @@ const Registration= ({navigation}) => {
       Alert.alert("Please enter Confirm Password");
       return;
     }
+    if(playerPassword !== playerConfirmPassword){
+      Alert.alert("Password and Confirm Password not match");
+      return;
+    }
     if(playerNumber === ""){
       Alert.alert("Please enter Number");
       return;
@@ -104,6 +108,7 @@ return(
           style={styles.input}
           placeholder="Password"
           textAlign='center'
+          secureTextEntry= {true}
           placeholderTextColor={'#023047'}
           backgroundColor='#ffc8dd'
           onChangeText={(text)=> setPlayerPassword(text)}
@@ -111,6 +116,7 @@ return(
           <TextInput
           style={styles.input}
           placeholder="Confirm Password"
+          secureTextEntry= {true}
           textAlign='center'
           placeholderTextColor={'#023047'}
           backgroundColor='#ffc8dd'
