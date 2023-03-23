@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from './services/firebaseConfig';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {addDoc,setDoc, doc, collection} from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 
 const Registration= ({navigation}) => {
@@ -37,7 +38,7 @@ const Registration= ({navigation}) => {
  
 
   
-  const SignUpPressed = ()=>{
+  const SignUpPressed = async (uid)=>{
     if(playerEmail === ""){
       Alert.alert("Please enter Email");
       return;
@@ -64,22 +65,16 @@ const Registration= ({navigation}) => {
       Alert.alert("Please enter Number");
       return;
     }
-    setLoading(true); 
-
-    createUserWithEmailAndPassword(auth, playerEmail, playerPassword)
-    .then((authResponse) => {
-        const user = authResponse.user;
-      console.log(user.uid);
-      setLoading(false);
-        Alert.alert("Registed user")
+    try {
+      setLoading(true)
+      const authResponse = await createUserWithEmailAndPassword(auth,playerEmail,playerPassword);
      
-      })
-       .catch((authError) =>{
-      setLoading(false);
-      alert(authError.message)  
-    })
-    // setDoc ak doc bnao hmari firesotre db ma
-    // users collection k andr new UID k sath data la k
+      Alert.alert("Confirmed")
+      setLoading(false)
+    } catch (error) {
+      Alert.alert(error.message);
+      setLoading(false);  
+    }
     
    // navigation.navigate('tab');
   };
