@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Image, SafeAreaView,TextInput, TouchableOpacity
 import React, { useState ,useRef ,useEffect} from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from './services/firebaseConfig';
+import { auth, db, userRef } from './services/firebaseConfig';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {addDoc,setDoc, doc, collection} from 'firebase/firestore';
 import { async } from '@firebase/util';
@@ -68,7 +68,10 @@ const Registration= ({navigation}) => {
     try {
       setLoading(true)
       const authResponse = await createUserWithEmailAndPassword(auth,playerEmail,playerPassword);
-     
+     let doc= await addDoc(userRef,{
+      playerName,playerEmail,playerNumber
+
+     })
       Alert.alert("Confirmed")
       setLoading(false)
     } catch (error) {
