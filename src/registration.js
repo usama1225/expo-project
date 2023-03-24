@@ -2,10 +2,14 @@ import { Text, View, StyleSheet, Image, SafeAreaView,TextInput, TouchableOpacity
 import React, { useState ,useRef ,useEffect} from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db, userRef } from './services/firebaseConfig';
+import { auth, db,storage, userRef } from './services/firebaseConfig';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {addDoc,setDoc, doc, collection} from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { async } from '@firebase/util';
+import { uriToBlob } from './utils/help';
+
+
 
 
 const Registration= ({navigation}) => {
@@ -16,8 +20,7 @@ const Registration= ({navigation}) => {
   const [playerNumber, setPlayerNumber]= useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [status, requestPermission] = ImagePicker.useCameraPermissions();
-  requestPermission();
+  const [profilePic, setProfilePic] = useState("");
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -34,6 +37,7 @@ const Registration= ({navigation}) => {
       setImage(result.assets[0].uri);
     }
   };
+
 
  
 
@@ -65,22 +69,52 @@ const Registration= ({navigation}) => {
       Alert.alert("Please enter Number");
       return;
     }
-    try {
-      setLoading(true)
-      const authResponse = await createUserWithEmailAndPassword(auth,playerEmail,playerPassword);
-     let doc= await addDoc(userRef,{
-      playerName,playerEmail,playerNumber
+    if(image === ""){
+      Alert.alert("Choose Profile Picture");
+    }
+    setLoading(true);
+    createUserWithEmailAndPassword(auth, playerEmail, playerPassword)
+    .then((authResponse) => {
+      const user = authResponse.user;
 
-     })
-      Alert.alert("Confirmed")
-      setLoading(false)
+      // print authResponse to study and get UID out of it
+      console.log(user.uid);
+
+      // try uploading the image
+      attemptToUploadData(user.uid);
+    })
+    .catch((authError) => {
+      setLoading(false);
+      alert(authError.message);
+    });
+  };
+    const attemptToUploadData = async (uid)=>{
+
+    
+    try {
+      setLoading(true);
+      const blobResponse = await uriToBlob(image);
+      const filename = `profile_${Date.now()}`;
+      const fileRef = ref(storage, filename);
+      const uploadImageResponse = await uploadBytes(fileRef, blobResponse);
+      const fileResponse = await getDownloadURL(fileRef);
+      const data = {
+        firstName: playerName,
+        email: playerEmail,
+        number: playerNumber,
+        profileImgUrl: fileResponse,
+      };
+      
+      const uploadDocument = await setDoc(doc(db, "users", uid), data);
+      setLoading(false);
+     Alert.alert("Confirmed")
     } catch (error) {
       Alert.alert(error.message);
       setLoading(false);  
     }
+  };
     
    // navigation.navigate('tab');
-  };
   
 return(
 <SafeAreaView style={{flex:1.3, backgroundColor:'#ffafcc'}}>
@@ -101,7 +135,7 @@ return(
         {image && <Image source={{ uri: image }} style={{ width: 200,borderRadius:90, marginVertical:20, height: 200 }} />}
         
       <Button title="Choose From Gallary" onPress={pickImage}  />
-    
+      
       
     </View>
         
@@ -159,7 +193,6 @@ return(
           <Text style={{padding:40,color:'black', }}> have an account? <TouchableOpacity onPress={()=>{navigation.navigate('login')}}><Text style={{color:'red',fontSize:15, paddingTop:10}}>Login</Text></TouchableOpacity> </Text>
           </ScrollView>
     
-      
       </View>
       </SafeAreaView>
     
