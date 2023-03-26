@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { removeIsUserLoggedIn } from "../utils/help";
 const playersData=[
     {title:"Player 1", subtitle:"subtitle 1"},
     {title:"Player 2", subtitle:"subtitle 2"},
@@ -9,6 +10,10 @@ const playersData=[
     {title:"Player 6", subtitle:"subtitle 6"},
 ];
    function Player({navigation}){
+    const funcLogout = ()=>{
+        removeIsUserLoggedIn();
+        navigation.replace('login');
+    };
     const __renderItem = ({item})=>(
        <View>
         <TouchableOpacity style={{
@@ -23,6 +28,11 @@ const playersData=[
                 {item.subtitle}
             </Text>
            
+        </TouchableOpacity>
+        <TouchableOpacity onPress={funcLogout}>
+            <Text style={{alignContent:"center",justifyContent:"center",backgroundColor:"pink", fontSize:20}} >
+                Logout
+                </Text>
         </TouchableOpacity>
         </View>
     );

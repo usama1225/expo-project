@@ -4,7 +4,7 @@ import React from 'react'
 const Store = () => {
   return (
     <View>
-      <Text>store</Text>
+      <Text style={{alignContent:"center",justifyContent:"center",backgroundColor:"pink",fontSize:40}}>Coming Soon</Text>
     </View>
   )
 }

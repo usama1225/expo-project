@@ -7,7 +7,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {addDoc,setDoc, doc, collection} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { async } from '@firebase/util';
-import { uriToBlob } from './utils/help';
+import { uriToBlob, saveIsUserLoggedIn } from './utils/help';
 
 
 
@@ -107,7 +107,10 @@ const Registration= ({navigation}) => {
       
       const uploadDocument = await setDoc(doc(db, "users", uid), data);
       setLoading(false);
-     Alert.alert("Confirmed")
+      saveIsUserLoggedIn();
+      Alert.alert("Confirmed");
+      navigation.replace("tab");
+     
     } catch (error) {
       Alert.alert(error.message);
       setLoading(false);  
