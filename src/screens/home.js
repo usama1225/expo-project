@@ -37,10 +37,12 @@ const Home = ()=> {
  
   const __renderPost=({item})=>(
     <View style={styles.card}>
-   <View style={{alignItems:'center',height:50}}><Text>{item.firstName}</Text>
+   <View style={{alignItems:'center',height:50,}}>
+    
+    <Text>{item.firstName}</Text>
    </View>
    <View style={{height:300, backgroundColor: 'white'}}>
-  
+  <Image src={item.profileImgUrl} style={{ width: 100, height: 100, borderRadius: 50, marginRight: 5}}/>
    </View>
    <View style={{justifyContent:'space-between',flex:1,flexDirection:'row',height:100, padding:10,alignItems:"flex-end"}}>
    <Text>❤Likes:20</Text>
@@ -78,11 +80,11 @@ const styles=StyleSheet.create({
     },
     card:{
       height:450,
-      backgroundColor:'purple',
+      backgroundColor:'#00c2d1',
       padding: 10,
       margin:10,
       flex: 2,
-      borderRadius:40
+      borderRadius:40,
     }
 });
 export default Home
