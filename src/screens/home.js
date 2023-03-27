@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet,Image,FlatList, useAnimatedValue } from 'react-native'
+import { View, Text, StyleSheet,Image,FlatList, useAnimatedValue, Alert } from 'react-native';
+import { collection, getDocs } from 'firebase/firestore';
+import React, {useEffect,useState} from 'react';
+import { db } from '../services/firebaseConfig';
 
-import React from 'react'
-const Post=[
+/*const Post=[
   {
     name: "Usama",
     likes:30,
@@ -17,20 +19,32 @@ const Post=[
   likes:30,
   share: 2,
 },
-]
+]*/
 
 const Home = ()=> {
+  const [users, setUsers]=useState();
+  const scrapData = [];
+  useEffect(()=>{
+    getDocs(collection(db,"users")).then((response)=>{
+      response.forEach((doc)=>{
+        scrapData.push(doc.data());
+      });
+      setUsers(scrapData);
+    }).catch((error)=>{
+      Alert.alert(error);
+    });
+  },[]);
  
   const __renderPost=({item})=>(
     <View style={styles.card}>
-   <View style={{alignItems:'center',height:50}}><Text>{item.name}</Text>
+   <View style={{alignItems:'center',height:50}}><Text>{item.firstName}</Text>
    </View>
    <View style={{height:300, backgroundColor: 'white'}}>
   
    </View>
    <View style={{justifyContent:'space-between',flex:1,flexDirection:'row',height:100, padding:10,alignItems:"flex-end"}}>
-   <Text>❤Likes:{item.likes}</Text>
-   <Text>✌Share:{item.share}</Text>
+   <Text>❤Likes:20</Text>
+   <Text>✌Share:3</Text>
    </View>
    </View>
   );
@@ -47,7 +61,7 @@ const Home = ()=> {
       </View>
       <View style={{backgroundColor:'#ffafcc', flex:1.3}}>
         <FlatList
-          data={Post}
+          data={users}
           renderItem={__renderPost}
         />
       </View>
