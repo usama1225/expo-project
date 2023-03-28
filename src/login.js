@@ -9,6 +9,7 @@ const Login = ({navigation}) => {
     useEffect (()=>{
       getIsUserLoggedIn().then((response)=>{
         if(response == "true"){
+          console.log(response);
         navigation.replace('tab');
         }
       });

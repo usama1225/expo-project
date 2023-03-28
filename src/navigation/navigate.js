@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Login from '../login';
 import Registration from '../registration';
 import Tab from '../../Tab/tab';
+import MyProfile from '../screens/MyProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ const Navigate = () => {
         />
         <Stack.Screen name="registration" component={Registration}  />
         <Stack.Screen name="tab" component={Tab} />
+        <Stack.Screen name='myProfile' component={MyProfile} />
         
       </Stack.Navigator>
     </NavigationContainer>
