@@ -1,14 +1,14 @@
 import { Text, View, Image, StyleSheet, TextInput,SafeAreaView,TouchableOpacity, ScrollView, Button, Alert } from 'react-native'
 import React, { useState,Component,useEffect } from 'react'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getIsUserLoggedIn } from './utils/help';
+import { getIsUserLoggedIn,getUserUid,saveIsUserLoggedIn,saveUserUid } from './utils/help';
 const Login = ({navigation}) => {
     const [playerEmail,setPlayerEmail]= useState("");
     const [playerPassword,setPlayerPassword]= useState("");
 
     useEffect (()=>{
       getIsUserLoggedIn().then((response)=>{
-        if(response == "true"){
+        if(response === "true"){
           console.log(response);
         navigation.replace('tab');
         }
@@ -22,6 +22,9 @@ signInWithEmailAndPassword(auth, playerEmail, playerPassword)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
+    const uid= user.uid;
+    saveIsUserLoggedIn();
+    saveUserUid(uid);
     Alert.alert("Successfully Registered")
     navigation.replace('tab')
   })
