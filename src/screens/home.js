@@ -37,12 +37,15 @@ const Home = ()=> {
  
   const __renderPost=({item})=>(
     <View style={styles.card}>
-   <View style={{alignItems:'center',height:50,}}>
-    
-    <Text>{item.firstName}</Text>
+   <View style={{height:35}}>
+     <Image src={item.profileImgUrl} style={{ width: 80, height: 80, alignItems:'flex-start', borderRadius: 50, marginRight: 5}}/>
+   
    </View>
-   <View style={{height:300, backgroundColor: 'white'}}>
-  <Image src={item.profileImgUrl} style={{ width: 100, height: 100, borderRadius: 50, marginRight: 5}}/>
+   <View style={{alignItems:'center'}}>
+   <Text style={{fontSize:20}}>{item.firstName}</Text>
+   </View>
+   <View style={{height:300,marginTop:30, backgroundColor: 'white'}}>
+      <Text> Post will be shown here </Text>
    </View>
    <View style={{justifyContent:'space-between',flex:1,flexDirection:'row',height:100, padding:10,alignItems:"flex-end"}}>
    <Text>❤Likes:20</Text>

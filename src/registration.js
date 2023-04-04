@@ -7,7 +7,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {addDoc,setDoc, doc, collection} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { async } from '@firebase/util';
-import { uriToBlob, saveIsUserLoggedIn } from './utils/help';
+import { uriToBlob, saveIsUserLoggedIn,saveUserUid } from './utils/help';
 
 
 
@@ -76,10 +76,10 @@ const Registration= ({navigation}) => {
     createUserWithEmailAndPassword(auth, playerEmail, playerPassword)
     .then((authResponse) => {
       const user = authResponse.user;
-
+      const uid= user.uid;
       // print authResponse to study and get UID out of it
       console.log(user.uid);
-
+      saveUserUid(uid);
       // try uploading the image
       attemptToUploadData(user.uid);
     })
