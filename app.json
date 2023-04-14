@@ -20,7 +20,8 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ] ],
+      ]
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -28,11 +29,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.usama1225.ParadiseCricket"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c46e9a0d-b441-4445-bb18-72bcd59de41b"
+      }
     }
-
   }
 }
