@@ -1,30 +1,35 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet,FlatList } from 'react-native'
 import React from 'react'
 
 const Store = () => {
+
+  const __renderProducts=()=>{
+    <View style={styles.card}>
+
+
+    </View>
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Store</Text>
-      <View style={styles.page}>
-      
-    </View>
+      <FlatList
+       renderItem={__renderProducts}
+      />
     </View>
   
   )
 }
 
-const styles= StyleSheet.create({
-  title:{
-    color: 'red',
-    textAlign: 'center',
-    padding: '20',
-    
+const styles=StyleSheet.create({
+  card:{
+    height:450,
+    padding:10,
+    backgroundColor:'#00c2d1',
+    margin:10,
+    flex:2,
+    borderRadius:40
   },
-  page:{
-    height:'70',
-    backgroundColor: 'orange',
-    padding: 20,
-    margin: '20',
+  products:{
+
   }
 });
 export default Store
