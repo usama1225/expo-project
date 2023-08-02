@@ -56,10 +56,10 @@ const Home = ()=> {
   return (
     
     <View  style={{flex:2}}>
-      <View style={{backgroundColor:'#ffafff', flex:0.5,alignContent:'center'}}>
+      <View style={{backgroundColor:'#ffafff', flex:0.7,alignContent:'center',justifyContent:'center'}}>
        <Image
-        source={require('../assets/cover.png')}
-        style={{height:150,width:430, }}      
+        source={require('../assets/Logo1.png')}
+        style={{height:200,width:200, marginHorizontal:100}}      
       
        />
             <Text style={styles.text}>Players</Text>
